@@ -8,6 +8,7 @@ import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
+import java.sql.SQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -48,7 +49,7 @@ public class WallCommandShould {
     private WallCommandFactory factory;
 
     @Test
-    public void print_all_messages_posted_to_one_followed_user() {
+    public void print_all_messages_posted_to_one_followed_user() throws SQLException {
         User bob = new User("Bob");
         User alice = new User("Alice");
 
@@ -66,7 +67,7 @@ public class WallCommandShould {
     }
 
     @Test
-    public void print_all_messages_posted_to_multiple_followed_users() {
+    public void print_all_messages_posted_to_multiple_followed_users() throws SQLException {
         User bob = new User("Bob");
         User alice = new User("Alice");
         User jill = new User("Jill");
@@ -92,7 +93,7 @@ public class WallCommandShould {
     }
 
     @Test
-    public void print_messages_in_date_order() {
+    public void print_messages_in_date_order() throws SQLException {
         User bob = new User("Bob");
         User alice = new User("Alice");
         User jill = new User("Jill");
@@ -121,7 +122,7 @@ public class WallCommandShould {
     }
 
     @Test
-    public void also_print_the_followers_own_messages() {
+    public void also_print_the_followers_own_messages() throws SQLException {
         User bob = new User("Bob");
         User alice = new User("Alice");
 
@@ -143,7 +144,7 @@ public class WallCommandShould {
         inOrder.verify(output).writeLine("bob right now");
     }
 
-    private Command makeCommandForSubject(String subjectName) {
+    private Command makeCommandForSubject(String subjectName) throws SQLException {
         when(parsedInput.wallCommandSubject()).thenReturn(subjectName);
         return factory.makeCommandFor(parsedInput);
     }

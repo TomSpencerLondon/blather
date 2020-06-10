@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.parsing.CommandReader;
+import java.sql.SQLException;
 
 import static com.github.richardjwild.blather.application.State.RUNNING;
 
@@ -15,7 +16,7 @@ public class EventLoop {
         this.controller = controller;
     }
 
-    public void start() {
+    public void start() throws SQLException {
         do {
             Command command = commandReader.readNextCommand();
             command.execute();

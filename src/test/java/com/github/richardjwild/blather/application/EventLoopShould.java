@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.parsing.CommandReader;
+import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,7 @@ public class EventLoopShould {
     }
 
     @Test
-    public void execute_commands_until_it_receives_the_quit_command() {
+    public void execute_commands_until_it_receives_the_quit_command() throws SQLException {
         when(commandReader.readNextCommand())
                 .thenReturn(command1)
                 .thenReturn(command2)

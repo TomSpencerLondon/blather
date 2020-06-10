@@ -6,6 +6,7 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -21,8 +22,7 @@ public class WallCommand implements Command {
             UserRepository userRepository,
             MessageRepository messageRepository,
             TimestampFormatter timestampFormatter,
-            Output output)
-    {
+            Output output) throws SQLException {
         this.output = output;
 
         Stream<User> wallUsers = userRepository.find(followerUserName)

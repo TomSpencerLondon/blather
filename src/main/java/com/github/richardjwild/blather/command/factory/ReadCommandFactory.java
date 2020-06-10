@@ -7,6 +7,7 @@ import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.ParsedInput;
+import java.sql.SQLException;
 
 public class ReadCommandFactory implements CommandFactory {
 
@@ -28,7 +29,7 @@ public class ReadCommandFactory implements CommandFactory {
     }
 
     @Override
-    public Command makeCommandFor(ParsedInput input) {
+    public Command makeCommandFor(ParsedInput input) throws SQLException {
         return new ReadCommand(
                 input.readCommandSubject(),
                 messageRepository,

@@ -6,6 +6,7 @@ import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -21,8 +22,7 @@ public class ReadCommand implements Command {
             MessageRepository messageRepository,
             UserRepository userRepository,
             TimestampFormatter timestampFormatter,
-            Output output)
-    {
+            Output output) throws SQLException {
         this.output = output;
 
         Stream<Message> messages = userRepository.find(recipientUserName)

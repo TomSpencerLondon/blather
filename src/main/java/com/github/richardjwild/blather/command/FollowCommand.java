@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -25,15 +26,21 @@ public class FollowCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        findUserToFollow().ifPresent(this::addFollower);
+    public void execute() throws SQLException {
+        findUserToFollow().ifPresent(toFollow -> {
+            try {
+                addFollower(toFollow);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
     }
 
-    private Optional<User> findUserToFollow() {
+    private Optional<User> findUserToFollow() throws SQLException {
         return userRepository.find(toFollowUserName);
     }
 
-    private void addFollower(User toFollow) {
+    private void addFollower(User toFollow) throws SQLException {
         User follower = findOrCreateFollower();
         if (!follower.equals(toFollow)) {
             follower.follow(toFollow);
@@ -41,11 +48,11 @@ public class FollowCommand implements Command {
         }
     }
 
-    private User findOrCreateFollower() {
+    private User findOrCreateFollower() throws SQLException {
         return findFollower().orElseGet(this::createFollower);
     }
 
-    private Optional<User> findFollower() {
+    private Optional<User> findFollower() throws SQLException {
         return userRepository.find(followerUserName);
     }
 

@@ -5,6 +5,7 @@ import com.github.richardjwild.blather.application.ApplicationBuilder;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
+import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,7 @@ public class BlatherShould {
     }
 
     @Test
-    public void display_a_users_posted_messages() {
+    public void display_a_users_posted_messages() throws SQLException {
         when(input.readLine())
                 .thenReturn("Alice -> My first message")
                 .thenReturn("Bob -> Hello world!")
@@ -71,7 +72,7 @@ public class BlatherShould {
     }
 
     @Test
-    public void allow_a_user_to_follow_other_users() {
+    public void allow_a_user_to_follow_other_users() throws SQLException {
         when(input.readLine())
                 .thenReturn("Alice -> My first message")
                 .thenReturn("Bob -> Hello world!")

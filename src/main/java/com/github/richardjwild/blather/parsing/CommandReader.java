@@ -4,6 +4,7 @@ import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.factory.CommandFactories;
 import com.github.richardjwild.blather.command.factory.CommandFactory;
 import com.github.richardjwild.blather.io.Input;
+import java.sql.SQLException;
 
 public class CommandReader {
 
@@ -17,7 +18,7 @@ public class CommandReader {
         this.commandFactories = commandFactories;
     }
 
-    public Command readNextCommand() {
+    public Command readNextCommand() throws SQLException {
         String inputLine = input.readLine();
         ParsedInput parsedInput = inputParser.parse(inputLine);
         CommandFactory commandFactory = commandFactories.factoryFor(parsedInput.verb());

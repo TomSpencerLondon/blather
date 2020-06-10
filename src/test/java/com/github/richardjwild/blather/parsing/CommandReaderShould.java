@@ -4,6 +4,7 @@ import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.factory.CommandFactories;
 import com.github.richardjwild.blather.command.factory.CommandFactory;
 import com.github.richardjwild.blather.io.Input;
+import java.sql.SQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -37,7 +38,7 @@ public class CommandReaderShould {
     private CommandFactory commandFactory;
 
     @Test
-    public void read_a_command() {
+    public void read_a_command() throws SQLException {
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactories);
         when(input.readLine()).thenReturn(INPUT_LINE);
         when(inputParser.parse(INPUT_LINE)).thenReturn(parsedInput);

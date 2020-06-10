@@ -8,6 +8,7 @@ import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
+import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +53,7 @@ public class ReadCommandShould {
     }
 
     @Test
-    public void print_all_messages_posted_to_a_specified_user_in_date_order() {
+    public void print_all_messages_posted_to_a_specified_user_in_date_order() throws SQLException {
         User user = new User("user");
         when(userRepository.find("user")).thenReturn(Optional.of(user));
         when(messageRepository.allMessagesPostedTo(user)).thenReturn(Stream.of(laterMessage, earlierMessage));
@@ -68,7 +69,7 @@ public class ReadCommandShould {
     }
 
     @Test
-    public void print_nothing_if_user_not_found() {
+    public void print_nothing_if_user_not_found() throws SQLException {
         when(userRepository.find("user")).thenReturn(Optional.empty());
         Command command = readCommandForUserName("user");
 
@@ -77,7 +78,7 @@ public class ReadCommandShould {
         verify(output, never()).writeLine(anyString());
     }
 
-    private Command readCommandForUserName(String userName) {
+    private Command readCommandForUserName(String userName) throws SQLException {
         when(parsedInput.readCommandSubject()).thenReturn(userName);
         return factory.makeCommandFor(parsedInput);
     }

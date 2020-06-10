@@ -1,6 +1,7 @@
 package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.io.Output;
+import java.sql.SQLException;
 
 public class Application {
 
@@ -15,7 +16,7 @@ public class Application {
         this.output = output;
     }
 
-    public void run() {
+    public void run() throws SQLException {
         output.writeLine(WELCOME_MESSAGE);
         eventLoop.start();
         output.writeLine(GOODBYE_MESSAGE);

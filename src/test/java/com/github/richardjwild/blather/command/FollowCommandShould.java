@@ -4,6 +4,7 @@ import com.github.richardjwild.blather.command.factory.FollowCommandFactory;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
+import java.sql.SQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -36,7 +37,7 @@ public class FollowCommandShould {
     private FollowCommandFactory factory;
 
     @Test
-    public void add_a_user_to_the_subjects_follow_list() {
+    public void add_a_user_to_the_subjects_follow_list() throws SQLException {
         User follower = new User("follower");
         User following = new User("following");
         when(userRepository.find("follower")).thenReturn(Optional.of(follower));
@@ -52,7 +53,7 @@ public class FollowCommandShould {
     }
 
     @Test
-    public void create_follower_if_it_doesnt_already_exist() {
+    public void create_follower_if_it_doesnt_already_exist() throws SQLException {
         User follower = new User("follower");
         User following = new User("following");
         when(userRepository.find("follower")).thenReturn(Optional.empty());
@@ -68,7 +69,7 @@ public class FollowCommandShould {
     }
     
     @Test
-    public void not_allow_a_user_to_follow_themselves() {
+    public void not_allow_a_user_to_follow_themselves() throws SQLException {
         User follower = mock(User.class);
         when(userRepository.find("follower")).thenReturn(Optional.of(follower));
         Command followCommand = makeFollowCommand("follower", "follower");

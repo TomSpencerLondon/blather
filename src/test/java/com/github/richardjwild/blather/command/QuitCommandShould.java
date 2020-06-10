@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.command.factory.QuitCommandFactory;
 import com.github.richardjwild.blather.parsing.ParsedInput;
+import java.sql.SQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ public class QuitCommandShould {
     private QuitCommandFactory factory;
 
     @Test
-    public void stop_the_application() {
+    public void stop_the_application() throws SQLException {
         Command command = factory.makeCommandFor(parsedInput);
 
         command.execute();

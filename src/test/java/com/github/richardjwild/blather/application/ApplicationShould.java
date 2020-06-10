@@ -1,6 +1,7 @@
 package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.io.Output;
+import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +28,8 @@ public class ApplicationShould {
     }
 
     @Test
-    public void print_a_welcome_message_then_start_the_application_then_print_an_exit_message() {
+    public void print_a_welcome_message_then_start_the_application_then_print_an_exit_message()
+        throws SQLException {
         application.run();
 
         InOrder inOrder = inOrder(output, eventLoop);

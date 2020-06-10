@@ -6,6 +6,7 @@ import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -34,21 +35,28 @@ public class PostCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws SQLException {
         User recipient = findOrCreateRecipient();
         Message message = new Message(recipient, messageText, clock.now());
         messageRepository.postMessage(recipient, message);
     }
 
-    private User findOrCreateRecipient() {
-        return findRecipient().orElseGet(this::createRecipient);
+    private User findOrCreateRecipient() throws SQLException {
+        return findRecipient().orElseGet(() -> {
+            try {
+                return createRecipient();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return null;
+        });
     }
 
-    private Optional<User> findRecipient() {
+    private Optional<User> findRecipient() throws SQLException {
         return userRepository.find(recipientUserName);
     }
 
-    private User createRecipient() {
+    private User createRecipient() throws SQLException {
         User recipient = new User(recipientUserName);
         userRepository.save(recipient);
         return recipient;

@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.persistence;
 
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
+import java.sql.SQLException;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -13,14 +14,14 @@ public class InMemoryUserRepositoryShould {
     private UserRepository userRepository = new InMemoryUserRepository();
 
     @Test
-    public void return_empty_when_user_not_found() {
+    public void return_empty_when_user_not_found() throws SQLException {
         Optional<User> result = userRepository.find("will_not_be_found");
 
         assertThat(result.isPresent()).isFalse();
     }
 
     @Test
-    public void return_stored_user_when_user_is_found() {
+    public void return_stored_user_when_user_is_found() throws SQLException {
         String userName = "will_be_found";
         User expectedUser = new User(userName);
         userRepository.save(expectedUser);
@@ -32,7 +33,7 @@ public class InMemoryUserRepositoryShould {
     }
 
     @Test
-    public void not_store_duplicate_users_when_the_same_user_saved_twice() {
+    public void not_store_duplicate_users_when_the_same_user_saved_twice() throws SQLException {
         String userName = "user_name";
         User user = new User(userName);
         userRepository.save(user);
