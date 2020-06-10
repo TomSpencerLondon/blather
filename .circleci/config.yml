@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+      
+    working_directory: ~/blather
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          - v1-dependencies-
+
+      - run:
+          name: Gradle dependencies
+          command: gradle dependencies
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+        
+      - run:
+          name: Unit tests
+          command: gradle test
+
+      - run:
+          name: End-to-end tests
+          command: |
+              echo Building executable...
+              gradle build
+              echo Running end-to-end test...
+              src/test/resources/test-end-to-end.sh ~/blather
