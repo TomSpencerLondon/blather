@@ -25,6 +25,11 @@ public class User {
         usersFollowing.add(following);
     }
 
+    public Set<User> following() {
+        return usersFollowing;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         return o != null
